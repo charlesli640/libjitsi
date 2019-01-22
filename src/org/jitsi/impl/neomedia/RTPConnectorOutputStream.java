@@ -319,6 +319,7 @@ public abstract class RTPConnectorOutputStream
             byte[] buf, int off, int len,
             Object context)
     {
+        logger.info("CharlesXXX packetize len="+len);
         RawPacket[] pkts = new RawPacket[1];
 
         RawPacket pkt = rawPacketPool.poll();
@@ -572,6 +573,13 @@ public abstract class RTPConnectorOutputStream
     @Override
     public int write(byte[] buf, int off, int len)
     {
+        logger.info("CharlesXXX write buf len="+len);
+        StringBuilder sb = new StringBuilder();
+        for(StackTraceElement ste: Thread.currentThread().getStackTrace()) {
+            sb.append(ste);
+            sb.append("\n");
+        }
+        logger.info("CharlesXXX stack " + sb.toString());
         return write(buf, off, len, /* context */ null);
     }
 
@@ -684,6 +692,7 @@ public abstract class RTPConnectorOutputStream
             {
                 if (success)
                 {
+                    logger.info("CharlesXXX send pkt length="+ pkt.getLength());
                     if (!send(pkt))
                     {
                         // Skip sending the remaining RawPackets but return
@@ -841,7 +850,7 @@ public abstract class RTPConnectorOutputStream
                     if (logDroppedPacket(numDroppedPackets))
                     {
                         logger.warn(
-                                "Packets dropped (hashCode=" + hashCode() + "): "
+                                "CharlesXXX2 Packets dropped (hashCode=" + hashCode() + "): "
                                         + numDroppedPackets);
                     }
                 }
@@ -911,6 +920,7 @@ public abstract class RTPConnectorOutputStream
                     RawPacket[] pkts;
                     try
                     {
+                        logger.info("CharlesXXX buffer.len="+buffer.len);
                         // We will sooner or later process the Buffer. Since this
 
                         // may take a non-negligible amount of time, do it
@@ -952,7 +962,9 @@ public abstract class RTPConnectorOutputStream
 
                     try
                     {
-                        RTPConnectorOutputStream.this.write(pkts);
+                        logger.info("CharlesXXX Going to send a packet: ");
+                        boolean r = RTPConnectorOutputStream.this.write(pkts);
+                        logger.info("CharlesXXX after send a packet: ret=" + r);
                     }
                     catch (Exception e)
                     {

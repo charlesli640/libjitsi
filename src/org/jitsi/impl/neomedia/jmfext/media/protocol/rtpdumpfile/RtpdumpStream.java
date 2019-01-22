@@ -129,7 +129,8 @@ public class RtpdumpStream
         }
 
         RawPacket rtpPacket = rtpFileReader.getNextPacket(true);
-        byte[] data = rtpPacket.getPayload(); 
+        byte[] data = rtpPacket.getPayload();
+        logger.info("CharlesXXX rtpPacket getPayloadLength="+rtpPacket.getPayloadLength());
 
         buffer.setData(data);
         buffer.setOffset(rtpPacket.getOffset());

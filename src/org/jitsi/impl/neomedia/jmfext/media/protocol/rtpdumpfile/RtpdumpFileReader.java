@@ -19,6 +19,7 @@ package org.jitsi.impl.neomedia.jmfext.media.protocol.rtpdumpfile;
 import java.io.*;
 
 import org.jitsi.service.neomedia.*;
+import org.jitsi.util.Logger;
 
 /**
  * This class represent a rtpdump file and provide an API to get the
@@ -42,6 +43,8 @@ import org.jitsi.service.neomedia.*;
  */
 public class RtpdumpFileReader
 {
+    private static final Logger logger
+            = Logger.getLogger(RtpdumpFileReader.class);
     /**
      * The size of the first header of the file (in bytes).
      * 
@@ -105,6 +108,7 @@ public class RtpdumpFileReader
 
         stream.readShort(); //read away an useless short (2 bytes)
         sizeInBytes = stream.readUnsignedShort();
+        logger.info("CharlesXXX getNextPacket sizeInBytes="+sizeInBytes);
         rtpdumpPacket = new byte[sizeInBytes];
         stream.readInt(); //read away the rtpdump timestamp
 

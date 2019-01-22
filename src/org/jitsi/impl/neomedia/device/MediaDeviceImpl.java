@@ -218,6 +218,8 @@ public class MediaDeviceImpl
      */
     protected CaptureDevice createCaptureDevice()
     {
+        logger.info("CharlesXXX MediaDeviceImpl.createCaptureDevice entering... ");
+        //logger.info(Thread.currentThread().getStackTrace());
         CaptureDevice captureDevice = null;
 
         if (getDirection().allowsSending())

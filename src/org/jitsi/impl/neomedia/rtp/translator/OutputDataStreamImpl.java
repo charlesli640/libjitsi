@@ -259,6 +259,7 @@ class OutputDataStreamImpl
 
             if (write)
             {
+                logger.info("CharlesXXX buf OutputDataStreamImpl.doWrite len="+len);
                 int w = s.stream.write(buf, off, len);
 
                 if (written < w)
@@ -627,6 +628,7 @@ class OutputDataStreamImpl
     {
         // FIXME It's unclear at the time of this writing why the method doWrite
         // is being invoked here and not the overloaded method write.
+        logger.info("CharlesXXX buf OutputDataStreamImpl.write len="+len);
         return doWrite(buf, off, len, /* format */ null, /* exclusion */ null);
     }
 

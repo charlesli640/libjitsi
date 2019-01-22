@@ -3036,6 +3036,9 @@ public class MediaStreamImpl
      */
     private void start(MediaDirection direction)
     {
+        logger.info("CharlesXXX MediaStreamImpl.start entering");
+
+
         if (direction == null)
             throw new NullPointerException("direction");
 
@@ -3052,6 +3055,7 @@ public class MediaStreamImpl
                 && ((startedDirection == null)
                         || !startedDirection.allowsSending()))
         {
+            logger.info("CharlesXXX MediaStreamImpl.start allowSending");
             /*
              * The startSendStreams method will be called so the getRTPManager
              * method will be called as part of the execution of the former.
@@ -3087,6 +3091,7 @@ public class MediaStreamImpl
                 && ((startedDirection == null)
                         || !startedDirection.allowsReceiving()))
         {
+            logger.info("CharlesXXX MediaStreamImpl.start allowReceiving");
             /*
              * The startReceiveStreams method will be called so the
              * getRTPManager method will be called as part of the execution of
@@ -3125,11 +3130,13 @@ public class MediaStreamImpl
      */
     private void startReceiveStreams()
     {
+        logger.info("CharlesXXX MediaStreamImpl.startReceiveStreams enter");
         /*
          * The ReceiveStreams originate from RtpManager, make sure that there is
          * an actual RTPManager to initialize ReceiveStreams which are then to
          * be started.
          */
+
         getRTPManager();
 
         for (ReceiveStream receiveStream : getReceiveStreams())
@@ -3144,8 +3151,17 @@ public class MediaStreamImpl
                  * at the end of the Call after re-INVITEs have been
                  * handled.
                  */
-                if (receiveStreamDataSource != null)
+                if (receiveStreamDataSource != null) {
+
+                    logger.info("CharlesXXX startReceiveStreams ");
+                    StringBuilder sb = new StringBuilder();
+                        for(StackTraceElement ste: Thread.currentThread().getStackTrace()) {
+                            sb.append(ste);
+                            sb.append("\n");
+                    }
+                    logger.info("CharlesXXX stack " + sb.toString());
                     receiveStreamDataSource.start();
+                }
             }
             catch (IOException ioex)
             {
@@ -3162,6 +3178,7 @@ public class MediaStreamImpl
      */
     private void startSendStreams()
     {
+        logger.info("CharlesXXX MediaStreamImpl.startSendStreams enter");
         /*
          * Until it's clear that the SendStreams are required (i.e. we've
          * negotiated to send), they will not be created. Otherwise, their

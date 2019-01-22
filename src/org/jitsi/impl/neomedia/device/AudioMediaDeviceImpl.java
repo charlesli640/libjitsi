@@ -134,6 +134,14 @@ public class AudioMediaDeviceImpl
     @Override
     protected synchronized CaptureDevice createCaptureDevice()
     {
+        logger.info("CharlesXXX AudioMediaDeviceImpl.createCaptureDevice entering... ");
+        StringBuilder sb = new StringBuilder();
+        for(StackTraceElement ste: Thread.currentThread().getStackTrace()) {
+            sb.append(ste);
+            sb.append("\n");
+        }
+        logger.info("CharlesXXX stack " + sb.toString());
+
         CaptureDevice captureDevice = null;
 
         if (getDirection().allowsSending())
@@ -324,6 +332,7 @@ public class AudioMediaDeviceImpl
      */
     protected CaptureDevice superCreateCaptureDevice()
     {
+        logger.info("CharlesXXX superCreateCaptureDevice");
         CaptureDevice captureDevice = super.createCaptureDevice();
 
         if (captureDevice != null)

@@ -24,6 +24,7 @@ import javax.media.protocol.*;
 import org.jitsi.service.neomedia.*;
 import org.jitsi.service.neomedia.device.*;
 import org.jitsi.service.neomedia.format.*;
+import org.jitsi.util.Logger;
 
 /**
  * Defines the interface for <tt>MediaDevice</tt> required by the
@@ -35,6 +36,8 @@ import org.jitsi.service.neomedia.format.*;
 public abstract class AbstractMediaDevice
     implements MediaDevice
 {
+    private static final Logger logger
+            = Logger.getLogger(AbstractMediaDevice.class);
     /**
      * Connects to a specific <tt>CaptureDevice</tt> given in the form of a
      * <tt>DataSource</tt>. Explicitly defined in order to allow extenders to
@@ -47,10 +50,20 @@ public abstract class AbstractMediaDevice
     public void connect(DataSource captureDevice)
         throws IOException
     {
+        logger.info("CharlesXXX AbstractMediaDevice.connect entering... ");
+        StringBuilder sb = new StringBuilder();
+        for(StackTraceElement ste: Thread.currentThread().getStackTrace()) {
+            sb.append(ste);
+            sb.append("\n");
+        }
+        logger.info("CharlesXXX stack " + sb.toString());
+
         if (captureDevice == null)
             throw new NullPointerException("captureDevice");
         try
         {
+            logger.info("CharlesXXX AbstractMediaDevice.connect captureDevice.connect()" +
+            "captureDevice = " + captureDevice.getClass().getCanonicalName());
             captureDevice.connect();
         }
         catch (NullPointerException npe)

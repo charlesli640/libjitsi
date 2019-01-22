@@ -23,6 +23,7 @@ import javax.media.protocol.*;
 
 import org.jitsi.impl.neomedia.control.*;
 import org.jitsi.service.neomedia.*;
+import org.jitsi.util.Logger;
 
 /**
  * Implements a <tt>PullBufferDataSource</tt> wrapper which provides mute
@@ -41,6 +42,8 @@ public class RewritablePullBufferDataSource
     implements MuteDataSource,
                InbandDTMFDataSource
 {
+    private static final Logger logger
+            = Logger.getLogger(RewritablePullBufferDataSource.class);
     /**
      * The indicator which determines whether this <tt>DataSource</tt> is mute.
      */
@@ -206,7 +209,16 @@ public class RewritablePullBufferDataSource
         public void read(Buffer buffer)
             throws IOException
         {
+            logger.info("CharlesXXX MutePullBufferStream.read entering... buffer len= "+buffer.getLength());
+            StringBuilder sb = new StringBuilder();
+            for(StackTraceElement ste: Thread.currentThread().getStackTrace()) {
+                sb.append(ste);
+                sb.append("\n");
+            }
+            logger.info("CharlesXXX stack " + sb.toString());
             stream.read(buffer);
+            logger.info("stream class = " + stream.getClass().getCanonicalName());
+            logger.info("CharlesXXX MutePullBufferStream.read after read buffer len= "+buffer.getLength());
 
             if (isSendingDTMF())
                 RewritablePushBufferDataSource.sendDTMF(buffer, tones.poll());
